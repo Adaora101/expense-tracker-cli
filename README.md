@@ -3,7 +3,7 @@
    A command-line app to add, edit, delete, and summarize personal expenses.
 
    ## Team Members
-   - Adaora Obialp(Developer, Product Owner)
+   - Adaora Obialo(Developer, Product Owner)
 
    ## Contact / Work Hours
    - Email: l00191840@atu.ie
