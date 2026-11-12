@@ -1,6 +1,5 @@
 import argparse
-from expense_tracker.expenses import add_expense, list_expenses
-
+from expense_tracker.expenses import add_expense, list_expenses, delete_expense
 
 def main():
     parser = argparse.ArgumentParser(prog="expense-tracker")
@@ -12,6 +11,8 @@ def main():
     add.add_argument("--note", default="")
     add.add_argument("--date", default=None)
     sub.add_parser("list", help="List all expenses")
+    delete = sub.add_parser("delete", help="Delete an expense by ID")
+    delete.add_argument("id", type=int)
 
     args = parser.parse_args()
     if args.command == "add":
@@ -25,6 +26,12 @@ def main():
             print(f"{'ID':<4} {'Date':<12} {'Category':<12} {'Amount':>9}  Note")
             for e in expenses:
                 print(f"{e['id']:<4} {e['date']:<12} {e['category']:<12} {e['amount']:>9.2f}  {e['note']}")
+    elif args.command == "delete":
+        try:
+            delete_expense(args.id)
+            print(f"Deleted expense #{args.id}")
+        except ValueError as err:
+            print(f"Error: {err}")
     else:
         parser.print_help()
     

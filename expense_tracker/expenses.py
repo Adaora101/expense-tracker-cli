@@ -19,3 +19,10 @@ def add_expense(amount, category, note="", expense_date=None, path=None):
 def list_expenses(path=None):
     kwargs = {"path": path} if path else {}
     return load_expenses(**kwargs)
+def delete_expense(expense_id, path=None):
+    kwargs = {"path": path} if path else {}
+    expenses = load_expenses(**kwargs)
+    remaining = [e for e in expenses if e["id"] != expense_id]
+    if len(remaining) == len(expenses):
+        raise ValueError(f"No expense found with ID {expense_id}")
+    save_expenses(remaining, **kwargs)
