@@ -16,3 +16,6 @@ def add_expense(amount, category, note="", expense_date=None, path=None):
     expenses.append(expense)
     save_expenses(expenses, **kwargs)
     return expense
+def list_expenses(path=None):
+    kwargs = {"path": path} if path else {}
+    return load_expenses(**kwargs)

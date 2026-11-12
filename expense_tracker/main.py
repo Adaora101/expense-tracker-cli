@@ -1,5 +1,5 @@
 import argparse
-from expense_tracker.expenses import add_expense
+from expense_tracker.expenses import add_expense, list_expenses
 
 
 def main():
@@ -11,13 +11,23 @@ def main():
     add.add_argument("--category", required=True)
     add.add_argument("--note", default="")
     add.add_argument("--date", default=None)
+    sub.add_parser("list", help="List all expenses")
 
     args = parser.parse_args()
     if args.command == "add":
         e = add_expense(args.amount, args.category, args.note, args.date)
         print(f"Added expense #{e['id']}: {e['amount']:.2f} ({e['category']})")
+    elif args.command == "list":
+        expenses = list_expenses()
+        if not expenses:
+            print("No expenses recorded yet.")
+        else:
+            print(f"{'ID':<4} {'Date':<12} {'Category':<12} {'Amount':>9}  Note")
+            for e in expenses:
+                print(f"{e['id']:<4} {e['date']:<12} {e['category']:<12} {e['amount']:>9.2f}  {e['note']}")
     else:
         parser.print_help()
+    
 
 
 if __name__ == "__main__":
