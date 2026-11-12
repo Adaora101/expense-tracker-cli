@@ -16,10 +16,17 @@ def main():
 
     args = parser.parse_args()
     if args.command == "add":
-        e = add_expense(args.amount, args.category, args.note, args.date)
-        print(f"Added expense #{e['id']}: {e['amount']:.2f} ({e['category']})")
+        try:
+            e = add_expense(args.amount, args.category, args.note, args.date)
+            print(f"Added expense #{e['id']}: {e['amount']:.2f} ({e['category']})")
+        except ValueError as err:
+            print(f"Error: {err}")
     elif args.command == "list":
-        expenses = list_expenses()
+        try:
+            expenses = list_expenses()
+        except ValueError as err:
+            print(f"Error: {err}")
+            return
         if not expenses:
             print("No expenses recorded yet.")
         else:

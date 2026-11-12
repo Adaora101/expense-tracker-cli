@@ -1,14 +1,36 @@
-from datetime import date
+from datetime import date, datetime
 from expense_tracker.storage import load_expenses, save_expenses
 
 
+
+def validate_amount(amount):
+    try:
+        value = float(amount)
+    except (TypeError, ValueError):
+        raise ValueError("Amount must be a number.")
+    if value <= 0:
+        raise ValueError("Amount must be greater than zero.")
+    return value
+
+
+def validate_date(date_str):
+    try:
+        datetime.strptime(date_str, "%Y-%m-%d")
+    except (TypeError, ValueError):
+        raise ValueError("Date must be in YYYY-MM-DD format.")
+    return date_str
+
+
 def add_expense(amount, category, note="", expense_date=None, path=None):
+    amount = validate_amount(amount)
+    if expense_date:
+        validate_date(expense_date)
     kwargs = {"path": path} if path else {}
     expenses = load_expenses(**kwargs)
     new_id = max((e["id"] for e in expenses), default=0) + 1
     expense = {
         "id": new_id,
-        "amount": float(amount),
+        "amount": amount,
         "category": category,
         "note": note,
         "date": expense_date or date.today().isoformat(),
