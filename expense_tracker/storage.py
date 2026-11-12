@@ -7,8 +7,11 @@ DATA_FILE = Path("expenses.json")
 def load_expenses(path=DATA_FILE):
     if not path.exists():
         return []
-    with open(path, "r") as f:
-        return json.load(f)
+    try:
+        with open(path, "r") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        raise ValueError(f"Data file {path} is corrupted. Fix or delete it.")
 
 
 def save_expenses(expenses, path=DATA_FILE):
