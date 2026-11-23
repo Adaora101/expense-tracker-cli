@@ -1,3 +1,9 @@
+"""Command-line entry point for the Expense Tracker CLI.
+
+Description: Parses commands (add, list, delete, edit, summary) and runs them.
+Author: Adaora Obialo
+Version: 1.0
+"""
 import argparse
 from expense_tracker.expenses import (
     add_expense,
@@ -9,6 +15,7 @@ from expense_tracker.expenses import (
 
 
 def main():
+    """Parse command-line arguments and run the chosen command."""
     parser = argparse.ArgumentParser(prog="expense-tracker")
     sub = parser.add_subparsers(dest="command")
 

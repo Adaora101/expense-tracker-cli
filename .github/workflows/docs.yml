@@ -1,0 +1,37 @@
+name: Generate Docs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate HTML documentation with pydoc
+        run: |
+          mkdir docs
+          cd docs
+          PYTHONPATH=.. python -m pydoc -w expense_tracker expense_tracker.expenses expense_tracker.storage expense_tracker.main
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-docs
+          path: docs/
