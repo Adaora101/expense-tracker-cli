@@ -82,3 +82,21 @@ def test_edit_command_unknown_id(monkeypatch, tmp_path, capsys):
     monkeypatch.chdir(tmp_path)
     run_cli(monkeypatch, "edit", "999", "--amount", "5")
     assert "Error" in capsys.readouterr().out
+
+def test_summary_command_shows_totals(monkeypatch, tmp_path, capsys):
+    monkeypatch.chdir(tmp_path)
+    run_cli(monkeypatch, "add", "--amount", "10", "--category", "food")
+    run_cli(monkeypatch, "add", "--amount", "5", "--category", "food")
+    run_cli(monkeypatch, "add", "--amount", "20", "--category", "travel")
+    capsys.readouterr()
+    run_cli(monkeypatch, "summary")
+    out = capsys.readouterr().out
+    assert "15.00" in out
+    assert "20.00" in out
+    assert "35.00" in out
+
+
+def test_summary_command_when_empty(monkeypatch, tmp_path, capsys):
+    monkeypatch.chdir(tmp_path)
+    run_cli(monkeypatch, "summary")
+    assert "No expenses recorded yet." in capsys.readouterr().out
