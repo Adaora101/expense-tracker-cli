@@ -29,5 +29,9 @@
    - Single Test runs one test file and one individual test, so a developer can quickly check a single feature.
    - Test Suite runs every test with a coverage minimum of 80%.
    - Build & Package builds the installable package.
+   - Generate Docs builds API documentation on every push
+
+   ## Documentation
+   API documentation is generated automatically from the docstrings by a GitHub Action using Python's built-in pydoc. 
 
   
