@@ -4,6 +4,7 @@ from expense_tracker.expenses import (
     list_expenses,
     delete_expense,
     edit_expense,
+    summarise_by_category,
 )
 
 
@@ -28,6 +29,7 @@ def main():
     edit.add_argument("--category", default=None)
     edit.add_argument("--note", default=None)
     edit.add_argument("--date", default=None)
+    sub.add_parser("summary", help="Show total spending by category")
 
     args = parser.parse_args()
     if args.command == "add":
@@ -64,6 +66,19 @@ def main():
             print(f"Updated expense #{e['id']}")
         except ValueError as err:
             print(f"Error: {err}")
+    elif args.command == "summary":
+        try:
+            totals = summarise_by_category()
+        except ValueError as err:
+            print(f"Error: {err}")
+            return
+        if not totals:
+            print("No expenses recorded yet.")
+        else:
+            print(f"{'Category':<15} {'Total':>10}")
+            for category, total in sorted(totals.items()):
+                print(f"{category:<15} {total:>10.2f}")
+            print(f"{'TOTAL':<15} {sum(totals.values()):>10.2f}")
     else:
         parser.print_help()
 

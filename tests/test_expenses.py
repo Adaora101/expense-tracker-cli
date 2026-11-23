@@ -1,7 +1,7 @@
 from datetime import date
 
 import pytest
-from expense_tracker.expenses import add_expense, list_expenses, delete_expense, edit_expense
+from expense_tracker.expenses import add_expense, list_expenses, delete_expense, edit_expense, summarise_by_category
 
 
 def test_add_expense_saves_to_file(tmp_path):
@@ -73,3 +73,14 @@ def test_edit_expense_rejects_invalid_amount(tmp_path):
     add_expense(10, "food", path=data_file)
     with pytest.raises(ValueError):
         edit_expense(1, amount=-3, path=data_file)
+
+def test_summary_totals_by_category(tmp_path):
+    data_file = tmp_path / "test.json"
+    add_expense(10, "food", path=data_file)
+    add_expense(5.5, "food", path=data_file)
+    add_expense(20, "travel", path=data_file)
+    assert summarise_by_category(path=data_file) == {"food": 15.5, "travel": 20.0}
+
+
+def test_summary_empty_when_no_expenses(tmp_path):
+    assert summarise_by_category(path=tmp_path / "none.json") == {}

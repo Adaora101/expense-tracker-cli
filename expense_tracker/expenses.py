@@ -69,3 +69,10 @@ def edit_expense(expense_id, amount=None, category=None, note=None,
             save_expenses(expenses, **kwargs)
             return expense
     raise ValueError(f"No expense found with ID {expense_id}")
+def summarise_by_category(path=None):
+    kwargs = {"path": path} if path else {}
+    totals = {}
+    for expense in load_expenses(**kwargs):
+        category = expense["category"]
+        totals[category] = totals.get(category, 0) + expense["amount"]
+    return {category: round(total, 2) for category, total in totals.items()}
