@@ -1,5 +1,11 @@
 import argparse
-from expense_tracker.expenses import add_expense, list_expenses, delete_expense
+from expense_tracker.expenses import (
+    add_expense,
+    list_expenses,
+    delete_expense,
+    edit_expense,
+)
+
 
 def main():
     parser = argparse.ArgumentParser(prog="expense-tracker")
@@ -10,9 +16,18 @@ def main():
     add.add_argument("--category", required=True)
     add.add_argument("--note", default="")
     add.add_argument("--date", default=None)
+
     sub.add_parser("list", help="List all expenses")
+
     delete = sub.add_parser("delete", help="Delete an expense by ID")
     delete.add_argument("id", type=int)
+
+    edit = sub.add_parser("edit", help="Edit an existing expense")
+    edit.add_argument("id", type=int)
+    edit.add_argument("--amount", type=float, default=None)
+    edit.add_argument("--category", default=None)
+    edit.add_argument("--note", default=None)
+    edit.add_argument("--date", default=None)
 
     args = parser.parse_args()
     if args.command == "add":
@@ -39,9 +54,18 @@ def main():
             print(f"Deleted expense #{args.id}")
         except ValueError as err:
             print(f"Error: {err}")
+    elif args.command == "edit":
+        fields = (args.amount, args.category, args.note, args.date)
+        if all(f is None for f in fields):
+            print("Error: Nothing to edit. Use --amount, --category, --note or --date.")
+            return
+        try:
+            e = edit_expense(args.id, args.amount, args.category, args.note, args.date)
+            print(f"Updated expense #{e['id']}")
+        except ValueError as err:
+            print(f"Error: {err}")
     else:
         parser.print_help()
-    
 
 
 if __name__ == "__main__":

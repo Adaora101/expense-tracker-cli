@@ -61,3 +61,24 @@ def test_no_command_prints_help(monkeypatch, tmp_path, capsys):
     monkeypatch.chdir(tmp_path)
     run_cli(monkeypatch)
     assert "usage" in capsys.readouterr().out.lower()
+
+def test_edit_command_updates_expense(monkeypatch, tmp_path, capsys):
+    monkeypatch.chdir(tmp_path)
+    run_cli(monkeypatch, "add", "--amount", "5", "--category", "food")
+    capsys.readouterr()
+    run_cli(monkeypatch, "edit", "1", "--amount", "20")
+    assert "Updated expense #1" in capsys.readouterr().out
+    run_cli(monkeypatch, "list")
+    assert "20.00" in capsys.readouterr().out
+
+
+def test_edit_command_with_no_fields(monkeypatch, tmp_path, capsys):
+    monkeypatch.chdir(tmp_path)
+    run_cli(monkeypatch, "edit", "1")
+    assert "Nothing to edit" in capsys.readouterr().out
+
+
+def test_edit_command_unknown_id(monkeypatch, tmp_path, capsys):
+    monkeypatch.chdir(tmp_path)
+    run_cli(monkeypatch, "edit", "999", "--amount", "5")
+    assert "Error" in capsys.readouterr().out

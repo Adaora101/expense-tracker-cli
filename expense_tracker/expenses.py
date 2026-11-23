@@ -48,3 +48,24 @@ def delete_expense(expense_id, path=None):
     if len(remaining) == len(expenses):
         raise ValueError(f"No expense found with ID {expense_id}")
     save_expenses(remaining, **kwargs)
+def edit_expense(expense_id, amount=None, category=None, note=None,
+                 expense_date=None, path=None):
+    kwargs = {"path": path} if path else {}
+    if amount is not None:
+        amount = validate_amount(amount)
+    if expense_date is not None:
+        validate_date(expense_date)
+    expenses = load_expenses(**kwargs)
+    for expense in expenses:
+        if expense["id"] == expense_id:
+            if amount is not None:
+                expense["amount"] = amount
+            if category is not None:
+                expense["category"] = category
+            if note is not None:
+                expense["note"] = note
+            if expense_date is not None:
+                expense["date"] = expense_date
+            save_expenses(expenses, **kwargs)
+            return expense
+    raise ValueError(f"No expense found with ID {expense_id}")
