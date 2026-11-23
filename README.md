@@ -17,6 +17,13 @@
    - Acceptance criteria are written
    - It has no unresolved blockers
 
+   ## Branching Strategy
+   This project uses GitHub Flow:
+   - main always holds working code and is never committed to directly.
+   - Each issue gets its own branch (e.g. feature/5-edit-expense).
+   - Work is merged into main through a pull request after the automated checks pass.
+   - Branches are kept after merging so the full history is visible(This was not applied to     first few branches).
+
    ## CI/CD Pipeline Design
    The pipeline is split into separate workflows on purpose:
    - Single Test runs one test file and one individual test, so a developer can quickly check a single feature.
