@@ -1,5 +1,5 @@
    # Expense Tracker CLI
-
+     ![Test Suite](https://github.com/Adaora101/expense-tracker-cli/actions/workflows/test_suite.yml/badge.svg)
    A command-line app to add, edit, delete, and summarize personal expenses.
 
    ## Team Members
