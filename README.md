@@ -16,3 +16,11 @@
    - It is assigned to an iteration and milestone
    - Acceptance criteria are written
    - It has no unresolved blockers
+
+   ## CI/CD Pipeline Design
+   The pipeline is split into separate workflows on purpose:
+   - Single Test runs one test file and one individual test, so a developer can quickly check a single feature.
+   - Test Suite runs every test with a coverage minimum of 80%.
+   - Build & Package builds the installable package.
+
+  
