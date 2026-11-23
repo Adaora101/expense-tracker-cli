@@ -1,0 +1,31 @@
+name: Single Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  single-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run one test file
+        run: pytest tests/test_validation.py
+
+      - name: Run one individual test
+        run: pytest tests/test_expenses.py::test_add_expense_saves_to_file
