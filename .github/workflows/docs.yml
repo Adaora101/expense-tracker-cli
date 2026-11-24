@@ -31,7 +31,7 @@ jobs:
           PYTHONPATH=.. python -m pydoc -w expense_tracker expense_tracker.expenses expense_tracker.storage expense_tracker.main
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: api-docs
           path: docs/
