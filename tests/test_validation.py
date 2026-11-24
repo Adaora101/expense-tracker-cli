@@ -20,3 +20,9 @@ def test_validate_date_accepts_valid_date():
 def test_validate_date_rejects_bad_values(bad):
     with pytest.raises(ValueError):
         validate_date(bad)
+
+@pytest.mark.parametrize("bad", ["nan", "inf", "-inf", "1e999"])
+def test_validate_amount_rejects_non_finite_values(bad):
+    """Security: NaN and infinity must not be able to corrupt stored totals."""
+    with pytest.raises(ValueError):
+        validate_amount(bad)

@@ -34,4 +34,8 @@
    ## Documentation
    API documentation is generated automatically from the docstrings by a GitHub Action using Python's built-in pydoc. 
 
-  
+   ## Security
+   Security decisions for this repository:
+   - SECURITY.md explains supported versions and how to report a vulnerability privately.
+   - Dependabot alerts, security updates and version updates are on, so known-vulnerable dependencies are flagged and patched through pull requests. Grouped updates reduce alert fatigue.
+ 

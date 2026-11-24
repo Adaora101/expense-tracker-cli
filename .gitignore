@@ -222,3 +222,11 @@ __marimo__/
 expenses.json
 docs/
 *.html
+# environment and secrets
+.env
+.env.local
+config/secrets.json
+*.pem
+*.key
+expenses.json
+docs/
