@@ -9,7 +9,7 @@ jobs:
       - run: echo "Running on ${{ runner.os }}."
       - run: echo "Branch is ${{ github.ref }}."
       - name: Check out repository code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - run: echo "Job status is ${{ job.status }}."
