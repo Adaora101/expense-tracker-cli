@@ -6,6 +6,7 @@ Version: 1.0
 """
 
 from datetime import date, datetime
+import math
 
 from expense_tracker.storage import load_expenses, save_expenses
 
@@ -26,10 +27,11 @@ def validate_amount(amount):
         value = float(amount)
     except (TypeError, ValueError):
         raise ValueError("Amount must be a number.")
+    if not math.isfinite(value):
+        raise ValueError("Amount must be a finite number.")
     if value <= 0:
         raise ValueError("Amount must be greater than zero.")
     return value
-
 
 def validate_date(date_str):
     """Check that a date string is in YYYY-MM-DD format.
